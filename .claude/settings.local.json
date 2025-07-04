@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(~/bin/arduino-cli compile --library . --fqbn arduino:avr:uno examples/test_bq25798/test_bq25798.ino)",
+      "Bash(~/bin/arduino-cli board:*)",
+      "Bash(~/bin/arduino-cli lib:*)",
+      "Bash(~/bin/arduino-cli compile:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
+}

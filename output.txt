@@ -1,0 +1,5 @@
+Adafruit BQ25798 test
+Address 0x6B Detected
+	I2CWRITE @ 0x6B :: 0x48, 
+	I2CREAD  @ 0x6B :: 0x19, 
+BQ25798 found!

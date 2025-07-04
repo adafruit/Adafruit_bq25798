@@ -1,0 +1,199 @@
+BQ25798
+SLUSDV2B – MAY 2020 – REVISED JANUARY 2023
+
+BQ25798 I2C Controlled, 1- to 4-Cell, 5-A Buck-Boost Battery Charger with Dual-Input
+Selector, MPPT for Solar Panels and Fast Backup Mode
+1 Features
+
+2 Applications
+
+•
+
+•
+•
+•
+•
+
+•
+
+•
+
+•
+•
+•
+•
+
+•
+•
+•
+
+•
+
+•
+
+•
+
+High power density, high integration buck-boost
+charger for 1-4 cell batteries supporting USB PD
+3.0 profile
+– Integrates four switching MOSFETs, BATFET
+– Integrates input and charging current sensing
+Highly efficient
+– 750-kHz or 1.5-MHz switching frequencies
+– 5-A charging current with 10-mA resolution
+• 96.5% efficient: 16-V battery at 3A from 20V
+Supports a wide range of input sources
+– Autonomously sampled open circuit voltage
+(VOC) maximum power point tracking (MPPT)
+for charging from a photovoltaic panel
+– 3.6-V to 24-V wide input operating voltage
+range with 30-V absolute maximum rating
+– Detects USB BC1.2, HVDCP and non-standard
+adapters
+Dual-input power mux controller (optional)
+Narrow voltage DC (NVDC) power path
+Backup Mode with Ultra-fast switchover to
+adjustable voltage
+Powers USB port from battery (USB OTG)
+– 2.8-V to 22-V OTG output voltage with 10-mV
+resolution to support USB-PD PPS
+– OTG output current regulation up to 3.32 A with
+40-mA resolution
+Flexible autonomous and I2C mode for optimal
+system performance
+Integrated 16-bit ADC for voltage, current, and
+temperature monitoring
+Low battery quiescent current
+– 17 µA for battery only operation
+– 500 nA in Charger Shutdown Mode
+High accuracy
+– -0.25% to +0.65% charge voltage regulation for
+2S batteries
+– ±5% charge current regulation
+– ±5% input current regulation
+Safety
+– Thermal regulation and thermal shutdown
+– Input/battery OVP and OCP
+– Converter MOSFETs OCP
+– Charging safety timer
+Package
+– 29-Pin 4 mm × 4 mm QFN
+
+Video doorbell, Smart home control
+Data concentrators, Robotic lawn mower
+Asset tracking, Mobile POS
+Multiparameter patient monitor, Electrocardiogram
+(ECG), Ultrasound smart probe
+
+3 Description
+The BQ25798 is a fully integrated switch-mode
+buck-boost charger for 1-4 cell Li-ion batteries
+and Li-polymer batteries. The integration includes
+4 switching MOSFETs, input and charging current
+sensing circuits, the battery FET and all the
+loop compensation of the buck-boost converter. It
+uses NVDC power path management, regulating
+the system not dropping below a configurable
+minimum system voltage. When system power
+exceeds the input source rating, battery supplement
+mode supports the system without overloading
+the input source. BQ25798 also maximizes power
+from photovoltaic panels using its built-in VOC
+scaling MPPT algorithm. BQ25798 supports ultra-fast
+switchover from the adapter to a converted battery
+voltage in Backup Mode.
+Device Information
+PACKAGE(1)
+
+PART NUMBER
+BQ25798
+(1)
+
+QFN (29)
+
+BODY SIZE (NOM)
+4.0 mm x 4.0 mm
+
+For all available packages, see the orderable addendum at
+the end of the data sheet.
+Optional
+Uninterrupted
+System Load 2
+
+3.6-24V
+Adapter
+
+Back-to-Back
+NFET
+
+PV
+Panel
+
+Back-to-Back
+NFET
+
+ACDRV1
+VBUS
+
+PMID
+
+2.8-24V
+Legend
+
+ACDRV2
+
+Back Up
+Application
+MPPT
+Application
+
+SW1
+
+SYS
+
+System Load 1
+2.5-19.4V
+
+SW2
+0-18.8V
+BAT
+
+I2C Bus
+BATP
+Host
+
+BQ25798
+1S to 4S
+Battery
+
+Host
+Control
+GND
+
+Simplified Schematic
+
+An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications,
+intellectual property matters and other important disclaimers. PRODUCTION DATA.
+
+BQ25798
+
+www.ti.com
+
+SLUSDV2B – MAY 2020 – REVISED JANUARY 2023
+
+Table of Contents
+1 Features............................................................................1
+2 Applications..................................................................... 1
+3 Description.......................................................................1
+4 Revision History.............................................................. 2
+5 Description (continued).................................................. 3
+6 Device Comparison......................................................... 4
+7 Pin Configuration and Functions...................................5
+8 Specifications.................................................................. 8
+8.1 Absolute Maximum Ratings........................................ 8
+8.2 ESD Ratings............................................................... 8
+8.3 Recommended Operating Conditions.........................8
+8.4 Thermal Information....................................................9
+8.5 Electrical Characteristics.............................................9
+8.6 Timing Requirements................................................ 18
+8.7 Typical Characteristics.............................................. 19
