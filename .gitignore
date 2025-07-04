@@ -1,0 +1,5 @@
+*.pdf
+*.txt
+bq25798_section_*
+output.txt
+.claude/
