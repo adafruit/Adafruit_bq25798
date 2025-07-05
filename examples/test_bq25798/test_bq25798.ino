@@ -153,6 +153,121 @@ void setup() {
   Serial.print("Restored to default: ");
   Serial.print(bq.getInputLimitA());
   Serial.println("A");
+  
+  Serial.println();
+  
+  // Test battery voltage threshold functions
+  // Options: 15%, 62.2%, 66.7%, 71.4% of VREG (default: 71.4%)
+  if (bq.setVBatLowV(BQ25798_VBAT_LOWV_66_7_PERCENT)) {
+    Serial.print("Set VBat low threshold to ");
+    switch(bq.getVBatLowV()) {
+      case BQ25798_VBAT_LOWV_15_PERCENT: Serial.println("15% of VREG"); break;
+      case BQ25798_VBAT_LOWV_62_2_PERCENT: Serial.println("62.2% of VREG"); break;
+      case BQ25798_VBAT_LOWV_66_7_PERCENT: Serial.println("66.7% of VREG"); break;
+      case BQ25798_VBAT_LOWV_71_4_PERCENT: Serial.println("71.4% of VREG"); break;
+    }
+  } else {
+    Serial.println("Failed to set VBat low threshold");
+  }
+  
+  Serial.println();
+  
+  // Test precharge current limit functions
+  // Range: 0.04A to 2.0A, 40mA steps (default: 0.12A)
+  Serial.print("Current precharge current limit: ");
+  Serial.print(bq.getPrechargeLimitA());
+  Serial.println("A");
+  
+  // Test setting precharge current to 0.2A
+  if (bq.setPrechargeLimitA(0.2)) {
+    Serial.print("Set precharge current limit to ");
+    Serial.print(bq.getPrechargeLimitA());
+    Serial.println("A");
+  } else {
+    Serial.println("Failed to set precharge current limit");
+  }
+  
+  Serial.println();
+  
+  // Test watchdog timer behavior setting
+  /*
+  Serial.print("Current stopOnWDT setting: ");
+  bool currentStopOnWDT = bq.getStopOnWDT();
+  Serial.println(currentStopOnWDT ? "true (WDT will NOT reset safety timers)" : "false (WDT will reset safety timers)");
+  
+  // Toggle the setting
+  bool newStopOnWDT = !currentStopOnWDT;
+  if (bq.setStopOnWDT(newStopOnWDT)) {
+    Serial.print("Set stopOnWDT to ");
+    Serial.print(newStopOnWDT ? "true" : "false");
+    Serial.print(" - Read back: ");
+    Serial.println(bq.getStopOnWDT() ? "true" : "false");
+  } else {
+    Serial.println("Failed to set stopOnWDT");
+  }
+  */
+  
+  Serial.println();
+  
+  // Test termination current limit functions
+  // Range: 0.04A to 1.0A, 40mA steps (default: 0.2A)
+  Serial.print("Current termination current limit: ");
+  float defaultTermA = bq.getTerminationA();
+  Serial.print(defaultTermA);
+  Serial.println("A");
+  
+  // Test setting termination current to 0.32A
+  float testTermA = 0.32;
+  if (bq.setTerminationA(testTermA)) {
+    Serial.print("Set termination current limit to ");
+    Serial.print(testTermA);
+    Serial.println("A");
+    Serial.print("Read back: ");
+    Serial.print(bq.getTerminationA());
+    Serial.println("A");
+  } else {
+    Serial.println("Failed to set termination current limit");
+  }
+  
+  // Restore to default
+  bq.setTerminationA(defaultTermA);
+  Serial.print("Restored to default: ");
+  Serial.print(bq.getTerminationA());
+  Serial.println("A");
+  
+  Serial.println();
+  
+  // Test battery cell count functions
+  // bq.setCellCount(BQ25798_CELL_COUNT_2S); // Uncomment to set cell count if desired
+  Serial.print("Current cell count: ");
+  bq25798_cell_count_t currentCellCount = bq.getCellCount();
+  switch(currentCellCount) {
+    case BQ25798_CELL_COUNT_1S: Serial.println("1S (1 cell)"); break;
+    case BQ25798_CELL_COUNT_2S: Serial.println("2S (2 cells)"); break;
+    case BQ25798_CELL_COUNT_3S: Serial.println("3S (3 cells)"); break;
+    case BQ25798_CELL_COUNT_4S: Serial.println("4S (4 cells)"); break;
+  }
+  
+  Serial.println();
+  
+  // Test battery recharge deglitch time functions
+  // bq.setRechargeDeglitchTime(BQ25798_TRECHG_256MS); // Uncomment to set deglitch time if desired
+  Serial.print("Current recharge deglitch time: ");
+  bq25798_trechg_time_t currentDeglitchTime = bq.getRechargeDeglitchTime();
+  switch(currentDeglitchTime) {
+    case BQ25798_TRECHG_64MS: Serial.println("64ms"); break;
+    case BQ25798_TRECHG_256MS: Serial.println("256ms"); break;
+    case BQ25798_TRECHG_1024MS: Serial.println("1024ms"); break;
+    case BQ25798_TRECHG_2048MS: Serial.println("2048ms"); break;
+  }
+  
+  Serial.println();
+  
+  // Test battery recharge threshold offset voltage functions
+  // bq.setRechargeThreshOffsetV(0.15); // Uncomment to set recharge threshold if desired
+  Serial.print("Current recharge threshold offset: ");
+  Serial.print(bq.getRechargeThreshOffsetV());
+  Serial.println("V (below VREG)");
 }
 
 void loop() {

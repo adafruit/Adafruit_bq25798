@@ -92,6 +92,36 @@
 #define BQ25798_REG_PART_INFORMATION 0x48           ///< Part Information
 
 /*!
+ * @brief Battery voltage threshold for precharge to fast charge transition
+ */
+typedef enum {
+  BQ25798_VBAT_LOWV_15_PERCENT = 0x00,   ///< 15% of VREG
+  BQ25798_VBAT_LOWV_62_2_PERCENT = 0x01, ///< 62.2% of VREG
+  BQ25798_VBAT_LOWV_66_7_PERCENT = 0x02, ///< 66.7% of VREG
+  BQ25798_VBAT_LOWV_71_4_PERCENT = 0x03  ///< 71.4% of VREG (default)
+} bq25798_vbat_lowv_t;
+
+/*!
+ * @brief Battery cell count selection
+ */
+typedef enum {
+  BQ25798_CELL_COUNT_1S = 0x00, ///< 1 cell
+  BQ25798_CELL_COUNT_2S = 0x01, ///< 2 cells
+  BQ25798_CELL_COUNT_3S = 0x02, ///< 3 cells
+  BQ25798_CELL_COUNT_4S = 0x03  ///< 4 cells
+} bq25798_cell_count_t;
+
+/*!
+ * @brief Battery recharge deglitch time
+ */
+typedef enum {
+  BQ25798_TRECHG_64MS = 0x00,   ///< 64ms
+  BQ25798_TRECHG_256MS = 0x01,  ///< 256ms
+  BQ25798_TRECHG_1024MS = 0x02, ///< 1024ms (default)
+  BQ25798_TRECHG_2048MS = 0x03  ///< 2048ms
+} bq25798_trechg_time_t;
+
+/*!
  * @brief BQ25798 I2C controlled buck-boost battery charger
  */
 class Adafruit_BQ25798 {
@@ -115,6 +145,29 @@ public:
 
   float getInputLimitA();
   bool setInputLimitA(float current);
+
+  bq25798_vbat_lowv_t getVBatLowV();
+  bool setVBatLowV(bq25798_vbat_lowv_t threshold);
+
+  float getPrechargeLimitA();
+  bool setPrechargeLimitA(float current);
+
+  bool getStopOnWDT();
+  bool setStopOnWDT(bool stopOnWDT);
+
+  float getTerminationA();
+  bool setTerminationA(float current);
+
+  bq25798_cell_count_t getCellCount();
+  bool setCellCount(bq25798_cell_count_t cellCount);
+
+  bq25798_trechg_time_t getRechargeDeglitchTime();
+  bool setRechargeDeglitchTime(bq25798_trechg_time_t deglitchTime);
+
+  float getRechargeThreshOffsetV();
+  bool setRechargeThreshOffsetV(float voltage);
+
+  bool reset();
 
 private:
   Adafruit_I2CDevice *i2c_dev; ///< Pointer to I2C bus interface
