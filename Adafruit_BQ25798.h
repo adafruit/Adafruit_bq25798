@@ -101,6 +101,21 @@ public:
 
   bool begin(uint8_t i2c_addr = BQ25798_DEFAULT_ADDR, TwoWire *wire = &Wire);
 
+  float getMinSystemV();
+  bool setMinSystemV(float voltage);
+
+  float getChargeLimitV();
+  bool setChargeLimitV(float voltage);
+
+  float getChargeLimitA();
+  bool setChargeLimitA(float current);
+
+  float getInputLimitV();
+  bool setInputLimitV(float voltage);
+
+  float getInputLimitA();
+  bool setInputLimitA(float current);
+
 private:
   Adafruit_I2CDevice *i2c_dev; ///< Pointer to I2C bus interface
 };
