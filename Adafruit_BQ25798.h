@@ -122,6 +122,34 @@ typedef enum {
 } bq25798_trechg_time_t;
 
 /*!
+ * @brief Precharge safety timer setting
+ */
+typedef enum {
+  BQ25798_PRECHG_TMR_2HR = 0x00, ///< 2 hours (default)
+  BQ25798_PRECHG_TMR_0_5HR = 0x01 ///< 0.5 hours
+} bq25798_prechg_timer_t;
+
+/*!
+ * @brief Top-off timer control
+ */
+typedef enum {
+  BQ25798_TOPOFF_TMR_DISABLED = 0x00, ///< Disabled (default)
+  BQ25798_TOPOFF_TMR_15MIN = 0x01,    ///< 15 minutes
+  BQ25798_TOPOFF_TMR_30MIN = 0x02,    ///< 30 minutes
+  BQ25798_TOPOFF_TMR_45MIN = 0x03     ///< 45 minutes
+} bq25798_topoff_timer_t;
+
+/*!
+ * @brief Fast charge timer setting
+ */
+typedef enum {
+  BQ25798_CHG_TMR_5HR = 0x00,  ///< 5 hours
+  BQ25798_CHG_TMR_8HR = 0x01,  ///< 8 hours
+  BQ25798_CHG_TMR_12HR = 0x02, ///< 12 hours (default)
+  BQ25798_CHG_TMR_24HR = 0x03  ///< 24 hours
+} bq25798_chg_timer_t;
+
+/*!
  * @brief BQ25798 I2C controlled buck-boost battery charger
  */
 class Adafruit_BQ25798 {
@@ -166,6 +194,33 @@ public:
 
   float getRechargeThreshOffsetV();
   bool setRechargeThreshOffsetV(float voltage);
+
+  float getOTGV();
+  bool setOTGV(float voltage);
+
+  bq25798_prechg_timer_t getPrechargeTimer();
+  bool setPrechargeTimer(bq25798_prechg_timer_t timer);
+
+  float getOTGLimitA();
+  bool setOTGLimitA(float current);
+
+  bq25798_topoff_timer_t getTopOffTimer();
+  bool setTopOffTimer(bq25798_topoff_timer_t timer);
+
+  bool getTrickleChargeTimerEnable();
+  bool setTrickleChargeTimerEnable(bool enable);
+
+  bool getPrechargeTimerEnable();
+  bool setPrechargeTimerEnable(bool enable);
+
+  bool getFastChargeTimerEnable();
+  bool setFastChargeTimerEnable(bool enable);
+
+  bq25798_chg_timer_t getFastChargeTimer();
+  bool setFastChargeTimer(bq25798_chg_timer_t timer);
+
+  bool getTimerHalfRateEnable();
+  bool setTimerHalfRateEnable(bool enable);
 
   bool reset();
 

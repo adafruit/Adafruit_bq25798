@@ -512,6 +512,279 @@ bool Adafruit_BQ25798::setRechargeThreshOffsetV(float voltage) {
 }
 
 /*!
+ * @brief Get the OTG mode regulation voltage setting
+ * @return OTG voltage in volts
+ */
+float Adafruit_BQ25798::getOTGV() {
+  Adafruit_BusIO_Register votg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_VOTG_REGULATION, 2, MSBFIRST);
+  Adafruit_BusIO_RegisterBits votg_bits = Adafruit_BusIO_RegisterBits(&votg_reg, 11, 0);
+  
+  uint16_t reg_value = votg_bits.read();
+  
+  // Convert to voltage: (register_value × 10mV) + 2800mV
+  return (reg_value * 0.01f) + 2.8f;
+}
+
+/*!
+ * @brief Set the OTG mode regulation voltage
+ * @param voltage OTG voltage in volts (2.8V to 22.0V)
+ * @return True if successful, false if voltage out of range
+ */
+bool Adafruit_BQ25798::setOTGV(float voltage) {
+  if (voltage < 2.8f || voltage > 22.0f) {
+    return false;
+  }
+  
+  // Convert voltage to register value: (voltage - 2.8V) / 0.01V
+  uint16_t reg_value = (uint16_t)((voltage - 2.8f) / 0.01f);
+  
+  // Clamp to 11-bit range (0-2047)
+  if (reg_value > 2047) {
+    reg_value = 2047;
+  }
+  
+  Adafruit_BusIO_Register votg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_VOTG_REGULATION, 2, MSBFIRST);
+  Adafruit_BusIO_RegisterBits votg_bits = Adafruit_BusIO_RegisterBits(&votg_reg, 11, 0);
+  
+  votg_bits.write(reg_value);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the precharge safety timer setting
+ * @return Precharge timer setting
+ */
+bq25798_prechg_timer_t Adafruit_BQ25798::getPrechargeTimer() {
+  Adafruit_BusIO_Register iotg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_IOTG_REGULATION);
+  Adafruit_BusIO_RegisterBits prechg_tmr_bit = Adafruit_BusIO_RegisterBits(&iotg_reg, 1, 7);
+  
+  uint8_t reg_value = prechg_tmr_bit.read();
+  
+  return (bq25798_prechg_timer_t)reg_value;
+}
+
+/*!
+ * @brief Set the precharge safety timer
+ * @param timer Precharge timer setting (0.5hr or 2hr)
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setPrechargeTimer(bq25798_prechg_timer_t timer) {
+  if (timer > BQ25798_PRECHG_TMR_0_5HR) {
+    return false;
+  }
+  
+  Adafruit_BusIO_Register iotg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_IOTG_REGULATION);
+  Adafruit_BusIO_RegisterBits prechg_tmr_bit = Adafruit_BusIO_RegisterBits(&iotg_reg, 1, 7);
+  
+  prechg_tmr_bit.write((uint8_t)timer);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the OTG current limit setting
+ * @return OTG current limit in amps
+ */
+float Adafruit_BQ25798::getOTGLimitA() {
+  Adafruit_BusIO_Register iotg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_IOTG_REGULATION);
+  Adafruit_BusIO_RegisterBits iotg_bits = Adafruit_BusIO_RegisterBits(&iotg_reg, 7, 0);
+  
+  uint8_t reg_value = iotg_bits.read();
+  
+  // Convert to current: register_value × 40mA
+  return reg_value * 0.04f;
+}
+
+/*!
+ * @brief Set the OTG current limit
+ * @param current OTG current limit in amps (0.16A to 3.36A)
+ * @return True if successful, false if current out of range
+ */
+bool Adafruit_BQ25798::setOTGLimitA(float current) {
+  if (current < 0.16f || current > 3.36f) {
+    return false;
+  }
+  
+  // Convert current to register value: current / 0.04A
+  uint8_t reg_value = (uint8_t)(current / 0.04f);
+  
+  // Clamp to 7-bit range (0-127)
+  if (reg_value > 127) {
+    reg_value = 127;
+  }
+  
+  Adafruit_BusIO_Register iotg_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_IOTG_REGULATION);
+  Adafruit_BusIO_RegisterBits iotg_bits = Adafruit_BusIO_RegisterBits(&iotg_reg, 7, 0);
+  
+  iotg_bits.write(reg_value);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the top-off timer setting
+ * @return Top-off timer setting
+ */
+bq25798_topoff_timer_t Adafruit_BQ25798::getTopOffTimer() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits topoff_bits = Adafruit_BusIO_RegisterBits(&timer_reg, 2, 6);
+  
+  uint8_t reg_value = topoff_bits.read();
+  
+  return (bq25798_topoff_timer_t)reg_value;
+}
+
+/*!
+ * @brief Set the top-off timer
+ * @param timer Top-off timer setting (disabled, 15min, 30min, 45min)
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setTopOffTimer(bq25798_topoff_timer_t timer) {
+  if (timer > BQ25798_TOPOFF_TMR_45MIN) {
+    return false;
+  }
+  
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits topoff_bits = Adafruit_BusIO_RegisterBits(&timer_reg, 2, 6);
+  
+  topoff_bits.write((uint8_t)timer);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the trickle charge timer enable setting
+ * @return True if trickle charge timer is enabled, false if disabled
+ */
+bool Adafruit_BQ25798::getTrickleChargeTimerEnable() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits trickle_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 5);
+  
+  return trickle_bit.read() == 1;
+}
+
+/*!
+ * @brief Set the trickle charge timer enable
+ * @param enable True = enable trickle charge timer, false = disable
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setTrickleChargeTimerEnable(bool enable) {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits trickle_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 5);
+  
+  trickle_bit.write(enable ? 1 : 0);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the precharge timer enable setting
+ * @return True if precharge timer is enabled, false if disabled
+ */
+bool Adafruit_BQ25798::getPrechargeTimerEnable() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits prechg_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 4);
+  
+  return prechg_bit.read() == 1;
+}
+
+/*!
+ * @brief Set the precharge timer enable
+ * @param enable True = enable precharge timer, false = disable
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setPrechargeTimerEnable(bool enable) {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits prechg_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 4);
+  
+  prechg_bit.write(enable ? 1 : 0);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the fast charge timer enable setting
+ * @return True if fast charge timer is enabled, false if disabled
+ */
+bool Adafruit_BQ25798::getFastChargeTimerEnable() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits chg_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 3);
+  
+  return chg_bit.read() == 1;
+}
+
+/*!
+ * @brief Set the fast charge timer enable
+ * @param enable True = enable fast charge timer, false = disable
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setFastChargeTimerEnable(bool enable) {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits chg_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 3);
+  
+  chg_bit.write(enable ? 1 : 0);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the fast charge timer setting
+ * @return Fast charge timer setting
+ */
+bq25798_chg_timer_t Adafruit_BQ25798::getFastChargeTimer() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits chg_tmr_bits = Adafruit_BusIO_RegisterBits(&timer_reg, 2, 1);
+  
+  uint8_t reg_value = chg_tmr_bits.read();
+  
+  return (bq25798_chg_timer_t)reg_value;
+}
+
+/*!
+ * @brief Set the fast charge timer
+ * @param timer Fast charge timer setting (5hr, 8hr, 12hr, 24hr)
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setFastChargeTimer(bq25798_chg_timer_t timer) {
+  if (timer > BQ25798_CHG_TMR_24HR) {
+    return false;
+  }
+  
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits chg_tmr_bits = Adafruit_BusIO_RegisterBits(&timer_reg, 2, 1);
+  
+  chg_tmr_bits.write((uint8_t)timer);
+  
+  return true;
+}
+
+/*!
+ * @brief Get the timer half-rate enable setting
+ * @return True if timer half-rate is enabled, false if disabled
+ */
+bool Adafruit_BQ25798::getTimerHalfRateEnable() {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits tmr2x_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 0);
+  
+  return tmr2x_bit.read() == 1;
+}
+
+/*!
+ * @brief Set the timer half-rate enable
+ * @param enable True = enable timer half-rate during regulation, false = disable
+ * @return True if successful
+ */
+bool Adafruit_BQ25798::setTimerHalfRateEnable(bool enable) {
+  Adafruit_BusIO_Register timer_reg = Adafruit_BusIO_Register(i2c_dev, BQ25798_REG_TIMER_CONTROL);
+  Adafruit_BusIO_RegisterBits tmr2x_bit = Adafruit_BusIO_RegisterBits(&timer_reg, 1, 0);
+  
+  tmr2x_bit.write(enable ? 1 : 0);
+  
+  return true;
+}
+
+/*!
  * @brief Reset all registers to default values
  * @return True if successful
  */
