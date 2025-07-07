@@ -150,6 +150,130 @@ typedef enum {
 } bq25798_chg_timer_t;
 
 /*!
+ * @brief Backup mode threshold setting (percentage of VINDPM)
+ */
+typedef enum {
+  BQ25798_VBUS_BACKUP_40_PERCENT = 0x00, ///< 40% of VINDPM
+  BQ25798_VBUS_BACKUP_60_PERCENT = 0x01, ///< 60% of VINDPM
+  BQ25798_VBUS_BACKUP_80_PERCENT = 0x02, ///< 80% of VINDPM (default)
+  BQ25798_VBUS_BACKUP_100_PERCENT = 0x03 ///< 100% of VINDPM
+} bq25798_vbus_backup_t;
+
+/*!
+ * @brief VAC overvoltage protection setting
+ */
+typedef enum {
+  BQ25798_VAC_OVP_26V = 0x00,  ///< 26V
+  BQ25798_VAC_OVP_22V = 0x01,  ///< 22V
+  BQ25798_VAC_OVP_12V = 0x02,  ///< 12V
+  BQ25798_VAC_OVP_7V = 0x03    ///< 7V (default)
+} bq25798_vac_ovp_t;
+
+/*!
+ * @brief Watchdog timer setting
+ */
+typedef enum {
+  BQ25798_WDT_DISABLE = 0x00, ///< Disable watchdog
+  BQ25798_WDT_0_5S = 0x01,    ///< 0.5 seconds
+  BQ25798_WDT_1S = 0x02,      ///< 1 second
+  BQ25798_WDT_2S = 0x03,      ///< 2 seconds
+  BQ25798_WDT_20S = 0x04,     ///< 20 seconds
+  BQ25798_WDT_40S = 0x05,     ///< 40 seconds (default)
+  BQ25798_WDT_80S = 0x06,     ///< 80 seconds
+  BQ25798_WDT_160S = 0x07     ///< 160 seconds
+} bq25798_wdt_t;
+
+/*!
+ * @brief Ship FET mode control setting
+ */
+typedef enum {
+  BQ25798_SDRV_IDLE = 0x00,             ///< IDLE (default)
+  BQ25798_SDRV_SHUTDOWN = 0x01,         ///< Shutdown Mode
+  BQ25798_SDRV_SHIP = 0x02,             ///< Ship Mode
+  BQ25798_SDRV_SYSTEM_RESET = 0x03      ///< System Power Reset
+} bq25798_sdrv_ctrl_t;
+
+/*!
+ * @brief Ship mode wakeup delay setting
+ */
+typedef enum {
+  BQ25798_WKUP_DLY_1S = 0x00,   ///< 1 second (default)
+  BQ25798_WKUP_DLY_15MS = 0x01  ///< 15ms
+} bq25798_wkup_dly_t;
+
+/*!
+ * @brief PWM switching frequency setting
+ */
+typedef enum {
+  BQ25798_PWM_FREQ_1_5MHZ = 0x00, ///< 1.5 MHz
+  BQ25798_PWM_FREQ_750KHZ = 0x01  ///< 750 kHz
+} bq25798_pwm_freq_t;
+
+/*!
+ * @brief Battery discharge current regulation setting
+ */
+typedef enum {
+  BQ25798_IBAT_REG_3A = 0x00,      ///< 3A
+  BQ25798_IBAT_REG_4A = 0x01,      ///< 4A
+  BQ25798_IBAT_REG_5A = 0x02,      ///< 5A
+  BQ25798_IBAT_REG_DISABLE = 0x03  ///< Disable (default)
+} bq25798_ibat_reg_t;
+
+/*!
+ * @brief VINDPM VOC percentage setting
+ */
+typedef enum {
+  BQ25798_VOC_PCT_56_25 = 0x00,    ///< 56.25% (0.5625)
+  BQ25798_VOC_PCT_62_5 = 0x01,     ///< 62.5% (0.625)
+  BQ25798_VOC_PCT_68_75 = 0x02,    ///< 68.75% (0.6875)
+  BQ25798_VOC_PCT_75 = 0x03,       ///< 75% (0.75)
+  BQ25798_VOC_PCT_81_25 = 0x04,    ///< 81.25% (0.8125)
+  BQ25798_VOC_PCT_87_5 = 0x05,     ///< 87.5% (0.875) (default)
+  BQ25798_VOC_PCT_93_75 = 0x06,    ///< 93.75% (0.9375)
+  BQ25798_VOC_PCT_100 = 0x07       ///< 100% (1.0)
+} bq25798_voc_pct_t;
+
+/*!
+ * @brief VOC delay time setting
+ */
+typedef enum {
+  BQ25798_VOC_DLY_50MS = 0x00,     ///< 50ms
+  BQ25798_VOC_DLY_300MS = 0x01,    ///< 300ms (default)
+  BQ25798_VOC_DLY_2S = 0x02,       ///< 2 seconds
+  BQ25798_VOC_DLY_5S = 0x03        ///< 5 seconds
+} bq25798_voc_dly_t;
+
+/*!
+ * @brief VOC measurement rate setting
+ */
+typedef enum {
+  BQ25798_VOC_RATE_30S = 0x00,     ///< 30 seconds
+  BQ25798_VOC_RATE_2MIN = 0x01,    ///< 2 minutes (default)
+  BQ25798_VOC_RATE_10MIN = 0x02,   ///< 10 minutes
+  BQ25798_VOC_RATE_30MIN = 0x03    ///< 30 minutes
+} bq25798_voc_rate_t;
+
+/*!
+ * @brief Thermal regulation threshold setting
+ */
+typedef enum {
+  BQ25798_TREG_60C = 0x00,         ///< 60°C
+  BQ25798_TREG_80C = 0x01,         ///< 80°C
+  BQ25798_TREG_100C = 0x02,        ///< 100°C
+  BQ25798_TREG_120C = 0x03         ///< 120°C (default)
+} bq25798_treg_t;
+
+/*!
+ * @brief Thermal shutdown threshold setting
+ */
+typedef enum {
+  BQ25798_TSHUT_150C = 0x00,       ///< 150°C (default)
+  BQ25798_TSHUT_130C = 0x01,       ///< 130°C
+  BQ25798_TSHUT_120C = 0x02,       ///< 120°C
+  BQ25798_TSHUT_85C = 0x03         ///< 85°C
+} bq25798_tshut_t;
+
+/*!
  * @brief BQ25798 I2C controlled buck-boost battery charger
  */
 class Adafruit_BQ25798 {
@@ -221,6 +345,158 @@ public:
 
   bool getTimerHalfRateEnable();
   bool setTimerHalfRateEnable(bool enable);
+
+  bool getAutoOVPBattDischarge();
+  bool setAutoOVPBattDischarge(bool enable);
+
+  bool getForceBattDischarge();
+  bool setForceBattDischarge(bool enable);
+
+  bool getChargeEnable();
+  bool setChargeEnable(bool enable);
+
+  bool getICOEnable();
+  bool setICOEnable(bool enable);
+
+  bool getForceICO();
+  bool setForceICO(bool enable);
+
+  bool getHIZMode();
+  bool setHIZMode(bool enable);
+
+  bool getTerminationEnable();
+  bool setTerminationEnable(bool enable);
+
+  bool getBackupModeEnable();
+  bool setBackupModeEnable(bool enable);
+
+  bq25798_vbus_backup_t getBackupModeThresh();
+  bool setBackupModeThresh(bq25798_vbus_backup_t threshold);
+
+  bq25798_vac_ovp_t getVACOVP();
+  bool setVACOVP(bq25798_vac_ovp_t threshold);
+
+  bool resetWDT();
+
+  bq25798_wdt_t getWDT();
+  bool setWDT(bq25798_wdt_t timer);
+
+  bool getForceDPinsDetection();
+  bool setForceDPinsDetection(bool enable);
+
+  bool getAutoDPinsDetection();
+  bool setAutoDPinsDetection(bool enable);
+
+  bool getHVDCP12VEnable();
+  bool setHVDCP12VEnable(bool enable);
+
+  bool getHVDCP9VEnable();
+  bool setHVDCP9VEnable(bool enable);
+
+  bool getHVDCPEnable();
+  bool setHVDCPEnable(bool enable);
+
+  bq25798_sdrv_ctrl_t getShipFETmode();
+  bool setShipFETmode(bq25798_sdrv_ctrl_t mode);
+
+  bool getShipFET10sDelay();
+  bool setShipFET10sDelay(bool enable);
+
+  bool getACenable();
+  bool setACenable(bool enable);
+
+  bool getOTGenable();
+  bool setOTGenable(bool enable);
+
+  bool getOTGPFM();
+  bool setOTGPFM(bool enable);
+
+  bool getForwardPFM();
+  bool setForwardPFM(bool enable);
+
+  bq25798_wkup_dly_t getShipWakeupDelay();
+  bool setShipWakeupDelay(bq25798_wkup_dly_t delay);
+
+  bool getBATFETLDOprecharge();
+  bool setBATFETLDOprecharge(bool enable);
+
+  bool getOTGOOA();
+  bool setOTGOOA(bool enable);
+
+  bool getForwardOOA();
+  bool setForwardOOA(bool enable);
+
+  bool getACDRV2enable();
+  bool setACDRV2enable(bool enable);
+
+  bool getACDRV1enable();
+  bool setACDRV1enable(bool enable);
+
+  bq25798_pwm_freq_t getPWMFrequency();
+  bool setPWMFrequency(bq25798_pwm_freq_t frequency);
+
+  bool getStatPinEnable();
+  bool setStatPinEnable(bool enable);
+
+  bool getVSYSshortProtect();
+  bool setVSYSshortProtect(bool enable);
+
+  bool getVOTG_UVPProtect();
+  bool setVOTG_UVPProtect(bool enable);
+
+  bool getIBUS_OCPenable();
+  bool setIBUS_OCPenable(bool enable);
+
+  bool getVINDPMdetection();
+  bool setVINDPMdetection(bool enable);
+
+  bool getShipFETpresent();
+  bool setShipFETpresent(bool enable);
+
+  bool getBatDischargeSenseEnable();
+  bool setBatDischargeSenseEnable(bool enable);
+
+  bq25798_ibat_reg_t getBatDischargeA();
+  bool setBatDischargeA(bq25798_ibat_reg_t current);
+
+  bool getIINDPMenable();
+  bool setIINDPMenable(bool enable);
+
+  bool getExtILIMpin();
+  bool setExtILIMpin(bool enable);
+
+  bool getBatDischargeOCPenable();
+  bool setBatDischargeOCPenable(bool enable);
+
+  bq25798_voc_pct_t getVINDPM_VOCpercent();
+  bool setVINDPM_VOCpercent(bq25798_voc_pct_t percentage);
+
+  bq25798_voc_dly_t getVOCdelay();
+  bool setVOCdelay(bq25798_voc_dly_t delay);
+
+  bq25798_voc_rate_t getVOCrate();
+  bool setVOCrate(bq25798_voc_rate_t rate);
+
+  bool getMPPTenable();
+  bool setMPPTenable(bool enable);
+
+  bq25798_treg_t getThermRegulationThresh();
+  bool setThermRegulationThresh(bq25798_treg_t threshold);
+
+  bq25798_tshut_t getThermShutdownThresh();
+  bool setThermShutdownThresh(bq25798_tshut_t threshold);
+
+  bool getVBUSpulldown();
+  bool setVBUSpulldown(bool enable);
+
+  bool getVAC1pulldown();
+  bool setVAC1pulldown(bool enable);
+
+  bool getVAC2pulldown();
+  bool setVAC2pulldown(bool enable);
+
+  bool getBackupACFET1on();
+  bool setBackupACFET1on(bool enable);
 
   bool reset();
 

@@ -349,6 +349,438 @@ void setup() {
   // bq.setTimerHalfRateEnable(false); // Uncomment to disable half-rate if desired
   Serial.print(F("Timer half-rate enabled: "));
   Serial.println(bq.getTimerHalfRateEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test automatic OVP battery discharge functions
+  // bq.setAutoOVPBattDischarge(false); // Uncomment to disable if desired
+  Serial.print(F("Auto OVP battery discharge enabled: "));
+  Serial.println(bq.getAutoOVPBattDischarge() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test force battery discharge functions
+  // bq.setForceBattDischarge(true); // Uncomment to force discharge if desired
+  Serial.print(F("Force battery discharge enabled: "));
+  Serial.println(bq.getForceBattDischarge() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test charge enable functions
+  // bq.setChargeEnable(false); // Uncomment to disable charging if desired
+  Serial.print(F("Charge enabled: "));
+  Serial.println(bq.getChargeEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ICO enable functions
+  // bq.setICOEnable(false); // Uncomment to disable ICO if desired
+  Serial.print(F("ICO enabled: "));
+  Serial.println(bq.getICOEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test force ICO functions
+  // bq.setForceICO(true); // Uncomment to force ICO if desired
+  Serial.print(F("Force ICO enabled: "));
+  Serial.println(bq.getForceICO() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test HIZ mode functions
+  // bq.setHIZMode(true); // Uncomment to enable HIZ mode if desired
+  Serial.print(F("HIZ mode enabled: "));
+  Serial.println(bq.getHIZMode() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test termination enable functions
+  // bq.setTerminationEnable(false); // Uncomment to disable termination if desired
+  Serial.print(F("Termination enabled: "));
+  Serial.println(bq.getTerminationEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test backup mode enable functions
+  // bq.setBackupModeEnable(true); // Uncomment to enable backup mode if desired
+  Serial.print(F("Backup mode enabled: "));
+  Serial.println(bq.getBackupModeEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test backup mode threshold functions
+  // bq.setBackupModeThresh(BQ25798_VBUS_BACKUP_60_PERCENT); // Uncomment to set threshold if desired
+  Serial.print(F("Current backup mode threshold: "));
+  bq25798_vbus_backup_t currentBackupThresh = bq.getBackupModeThresh();
+  switch(currentBackupThresh) {
+    case BQ25798_VBUS_BACKUP_40_PERCENT: Serial.println(F("40% of VINDPM")); break;
+    case BQ25798_VBUS_BACKUP_60_PERCENT: Serial.println(F("60% of VINDPM")); break;
+    case BQ25798_VBUS_BACKUP_80_PERCENT: Serial.println(F("80% of VINDPM")); break;
+    case BQ25798_VBUS_BACKUP_100_PERCENT: Serial.println(F("100% of VINDPM")); break;
+  }
+  
+  Serial.println();
+  
+  // Test VAC OVP functions
+  // bq.setVACOVP(BQ25798_VAC_OVP_12V); // Uncomment to set VAC OVP if desired
+  Serial.print(F("Current VAC OVP threshold: "));
+  bq25798_vac_ovp_t currentVACOVP = bq.getVACOVP();
+  switch(currentVACOVP) {
+    case BQ25798_VAC_OVP_26V: Serial.println(F("26V")); break;
+    case BQ25798_VAC_OVP_22V: Serial.println(F("22V")); break;
+    case BQ25798_VAC_OVP_12V: Serial.println(F("12V")); break;
+    case BQ25798_VAC_OVP_7V: Serial.println(F("7V")); break;
+  }
+  
+  Serial.println();
+  
+  // Test watchdog reset function
+  // bq.resetWDT(); // Uncomment to reset watchdog if desired
+  Serial.println(F("Watchdog reset function available"));
+  
+  Serial.println();
+  
+  // Test watchdog timer functions
+  // bq.setWDT(BQ25798_WDT_20S); // Uncomment to set watchdog timer if desired
+  Serial.print(F("Current watchdog timer: "));
+  bq25798_wdt_t currentWDT = bq.getWDT();
+  switch(currentWDT) {
+    case BQ25798_WDT_DISABLE: Serial.println(F("Disabled")); break;
+    case BQ25798_WDT_0_5S: Serial.println(F("0.5 seconds")); break;
+    case BQ25798_WDT_1S: Serial.println(F("1 second")); break;
+    case BQ25798_WDT_2S: Serial.println(F("2 seconds")); break;
+    case BQ25798_WDT_20S: Serial.println(F("20 seconds")); break;
+    case BQ25798_WDT_40S: Serial.println(F("40 seconds")); break;
+    case BQ25798_WDT_80S: Serial.println(F("80 seconds")); break;
+    case BQ25798_WDT_160S: Serial.println(F("160 seconds")); break;
+  }
+  
+  Serial.println();
+  
+  // Test force D+/D- pins detection functions
+  // bq.setForceDPinsDetection(true); // Uncomment to force D+/D- detection if desired
+  Serial.print(F("Force D+/D- pins detection enabled: "));
+  Serial.println(bq.getForceDPinsDetection() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test auto D+/D- pins detection functions
+  // bq.setAutoDPinsDetection(false); // Uncomment to disable auto D+/D- detection if desired
+  Serial.print(F("Auto D+/D- pins detection enabled: "));
+  Serial.println(bq.getAutoDPinsDetection() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test HVDCP 12V enable functions
+  // bq.setHVDCP12VEnable(false); // Uncomment to disable HVDCP 12V if desired
+  Serial.print(F("HVDCP 12V enabled: "));
+  Serial.println(bq.getHVDCP12VEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test HVDCP 9V enable functions
+  // bq.setHVDCP9VEnable(false); // Uncomment to disable HVDCP 9V if desired
+  Serial.print(F("HVDCP 9V enabled: "));
+  Serial.println(bq.getHVDCP9VEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test HVDCP enable functions
+  // bq.setHVDCPEnable(false); // Uncomment to disable HVDCP if desired
+  Serial.print(F("HVDCP enabled: "));
+  Serial.println(bq.getHVDCPEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ship FET mode functions
+  // bq.setShipFETmode(BQ25798_SDRV_SHIP); // Uncomment to set ship mode if desired
+  Serial.print(F("Current ship FET mode: "));
+  bq25798_sdrv_ctrl_t currentShipMode = bq.getShipFETmode();
+  switch(currentShipMode) {
+    case BQ25798_SDRV_IDLE: Serial.println(F("IDLE")); break;
+    case BQ25798_SDRV_SHUTDOWN: Serial.println(F("Shutdown Mode")); break;
+    case BQ25798_SDRV_SHIP: Serial.println(F("Ship Mode")); break;
+    case BQ25798_SDRV_SYSTEM_RESET: Serial.println(F("System Power Reset")); break;
+  }
+  
+  Serial.println();
+  
+  // Test ship FET 10s delay functions
+  // bq.setShipFET10sDelay(false); // Uncomment to disable 10s delay if desired
+  Serial.print(F("Ship FET 10s delay enabled: "));
+  Serial.println(bq.getShipFET10sDelay() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test AC enable functions
+  // bq.setACenable(false); // Uncomment to disable AC if desired
+  Serial.print(F("AC enabled: "));
+  Serial.println(bq.getACenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test OTG enable functions
+  // bq.setOTGenable(false); // Uncomment to disable OTG if desired
+  Serial.print(F("OTG enabled: "));
+  Serial.println(bq.getOTGenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test OTG PFM functions
+  // bq.setOTGPFM(false); // Uncomment to disable OTG PFM if desired
+  Serial.print(F("OTG PFM enabled: "));
+  Serial.println(bq.getOTGPFM() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test forward PFM functions
+  // bq.setForwardPFM(false); // Uncomment to disable forward PFM if desired
+  Serial.print(F("Forward PFM enabled: "));
+  Serial.println(bq.getForwardPFM() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ship wakeup delay functions
+  // bq.setShipWakeupDelay(BQ25798_WKUP_DLY_15MS); // Uncomment to set wakeup delay if desired
+  Serial.print(F("Current ship wakeup delay: "));
+  bq25798_wkup_dly_t currentWakeupDelay = bq.getShipWakeupDelay();
+  switch(currentWakeupDelay) {
+    case BQ25798_WKUP_DLY_1S: Serial.println(F("1 second")); break;
+    case BQ25798_WKUP_DLY_15MS: Serial.println(F("15ms")); break;
+  }
+  
+  Serial.println();
+  
+  // Test BATFET LDO precharge functions
+  // bq.setBATFETLDOprecharge(false); // Uncomment to disable BATFET LDO precharge if desired
+  Serial.print(F("BATFET LDO precharge enabled: "));
+  Serial.println(bq.getBATFETLDOprecharge() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test OTG OOA functions
+  // bq.setOTGOOA(false); // Uncomment to disable OTG OOA if desired
+  Serial.print(F("OTG OOA enabled: "));
+  Serial.println(bq.getOTGOOA() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test forward OOA functions
+  // bq.setForwardOOA(false); // Uncomment to disable forward OOA if desired
+  Serial.print(F("Forward OOA enabled: "));
+  Serial.println(bq.getForwardOOA() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ACDRV2 enable functions
+  // bq.setACDRV2enable(false); // Uncomment to disable ACDRV2 if desired
+  Serial.print(F("ACDRV2 enabled: "));
+  Serial.println(bq.getACDRV2enable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ACDRV1 enable functions
+  // bq.setACDRV1enable(false); // Uncomment to disable ACDRV1 if desired
+  Serial.print(F("ACDRV1 enabled: "));
+  Serial.println(bq.getACDRV1enable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test PWM frequency functions
+  // bq.setPWMFrequency(BQ25798_PWM_FREQ_750KHZ); // Uncomment to set PWM frequency if desired
+  Serial.print(F("Current PWM frequency: "));
+  bq25798_pwm_freq_t currentPWMFreq = bq.getPWMFrequency();
+  switch(currentPWMFreq) {
+    case BQ25798_PWM_FREQ_1_5MHZ: Serial.println(F("1.5 MHz")); break;
+    case BQ25798_PWM_FREQ_750KHZ: Serial.println(F("750 kHz")); break;
+  }
+  
+  Serial.println();
+  
+  // Test STAT pin enable functions
+  // bq.setStatPinEnable(false); // Uncomment to disable STAT pin if desired
+  Serial.print(F("STAT pin enabled: "));
+  Serial.println(bq.getStatPinEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VSYS short protection functions
+  // bq.setVSYSshortProtect(false); // Uncomment to disable VSYS short protection if desired
+  Serial.print(F("VSYS short protection enabled: "));
+  Serial.println(bq.getVSYSshortProtect() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VOTG UVP protection functions
+  // bq.setVOTG_UVPProtect(false); // Uncomment to disable VOTG UVP protection if desired
+  Serial.print(F("VOTG UVP protection enabled: "));
+  Serial.println(bq.getVOTG_UVPProtect() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test IBUS OCP enable functions
+  // bq.setIBUS_OCPenable(false); // Uncomment to disable IBUS OCP if desired
+  Serial.print(F("IBUS OCP enabled: "));
+  Serial.println(bq.getIBUS_OCPenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VINDPM detection functions
+  // bq.setVINDPMdetection(false); // Uncomment to disable VINDPM detection if desired
+  Serial.print(F("VINDPM detection enabled: "));
+  Serial.println(bq.getVINDPMdetection() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test ship FET present functions
+  // bq.setShipFETpresent(false); // Uncomment to disable ship FET present if desired
+  Serial.print(F("Ship FET present: "));
+  Serial.println(bq.getShipFETpresent() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test battery discharge sense enable functions
+  // bq.setBatDischargeSenseEnable(false); // Uncomment to disable battery discharge sense if desired
+  Serial.print(F("Battery discharge sense enabled: "));
+  Serial.println(bq.getBatDischargeSenseEnable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test battery discharge current regulation functions
+  // bq.setBatDischargeA(BQ25798_IBAT_REG_4A); // Uncomment to set discharge current if desired
+  Serial.print(F("Current battery discharge regulation: "));
+  bq25798_ibat_reg_t currentBatDischarge = bq.getBatDischargeA();
+  switch(currentBatDischarge) {
+    case BQ25798_IBAT_REG_3A: Serial.println(F("3A")); break;
+    case BQ25798_IBAT_REG_4A: Serial.println(F("4A")); break;
+    case BQ25798_IBAT_REG_5A: Serial.println(F("5A")); break;
+    case BQ25798_IBAT_REG_DISABLE: Serial.println(F("Disabled")); break;
+  }
+  
+  Serial.println();
+  
+  // Test IINDPM enable functions
+  // bq.setIINDPMenable(false); // Uncomment to disable IINDPM if desired
+  Serial.print(F("IINDPM enabled: "));
+  Serial.println(bq.getIINDPMenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test external ILIM pin functions
+  // bq.setExtILIMpin(false); // Uncomment to disable external ILIM pin if desired
+  Serial.print(F("External ILIM pin enabled: "));
+  Serial.println(bq.getExtILIMpin() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test battery discharge OCP enable functions
+  // bq.setBatDischargeOCPenable(false); // Uncomment to disable battery discharge OCP if desired
+  Serial.print(F("Battery discharge OCP enabled: "));
+  Serial.println(bq.getBatDischargeOCPenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VINDPM VOC percentage functions
+  // bq.setVINDPM_VOCpercent(BQ25798_VOC_PCT_75); // Uncomment to set VOC percentage if desired
+  Serial.print(F("Current VINDPM VOC percentage: "));
+  bq25798_voc_pct_t currentVOCpct = bq.getVINDPM_VOCpercent();
+  switch(currentVOCpct) {
+    case BQ25798_VOC_PCT_56_25: Serial.println(F("56.25%")); break;
+    case BQ25798_VOC_PCT_62_5: Serial.println(F("62.5%")); break;
+    case BQ25798_VOC_PCT_68_75: Serial.println(F("68.75%")); break;
+    case BQ25798_VOC_PCT_75: Serial.println(F("75%")); break;
+    case BQ25798_VOC_PCT_81_25: Serial.println(F("81.25%")); break;
+    case BQ25798_VOC_PCT_87_5: Serial.println(F("87.5%")); break;
+    case BQ25798_VOC_PCT_93_75: Serial.println(F("93.75%")); break;
+    case BQ25798_VOC_PCT_100: Serial.println(F("100%")); break;
+  }
+  
+  Serial.println();
+  
+  // Test VOC delay functions
+  // bq.setVOCdelay(BQ25798_VOC_DLY_2S); // Uncomment to set VOC delay if desired
+  Serial.print(F("Current VOC delay: "));
+  bq25798_voc_dly_t currentVOCdelay = bq.getVOCdelay();
+  switch(currentVOCdelay) {
+    case BQ25798_VOC_DLY_50MS: Serial.println(F("50ms")); break;
+    case BQ25798_VOC_DLY_300MS: Serial.println(F("300ms")); break;
+    case BQ25798_VOC_DLY_2S: Serial.println(F("2 seconds")); break;
+    case BQ25798_VOC_DLY_5S: Serial.println(F("5 seconds")); break;
+  }
+  
+  Serial.println();
+  
+  // Test VOC rate functions
+  // bq.setVOCrate(BQ25798_VOC_RATE_10MIN); // Uncomment to set VOC rate if desired
+  Serial.print(F("Current VOC measurement rate: "));
+  bq25798_voc_rate_t currentVOCrate = bq.getVOCrate();
+  switch(currentVOCrate) {
+    case BQ25798_VOC_RATE_30S: Serial.println(F("30 seconds")); break;
+    case BQ25798_VOC_RATE_2MIN: Serial.println(F("2 minutes")); break;
+    case BQ25798_VOC_RATE_10MIN: Serial.println(F("10 minutes")); break;
+    case BQ25798_VOC_RATE_30MIN: Serial.println(F("30 minutes")); break;
+  }
+  
+  Serial.println();
+  
+  // Test MPPT enable functions
+  // bq.setMPPTenable(false); // Uncomment to disable MPPT if desired
+  Serial.print(F("MPPT enabled: "));
+  Serial.println(bq.getMPPTenable() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test thermal regulation threshold functions
+  // bq.setThermRegulationThresh(BQ25798_TREG_100C); // Uncomment to set thermal regulation threshold if desired
+  Serial.print(F("Current thermal regulation threshold: "));
+  bq25798_treg_t currentTREG = bq.getThermRegulationThresh();
+  switch(currentTREG) {
+    case BQ25798_TREG_60C: Serial.println(F("60°C")); break;
+    case BQ25798_TREG_80C: Serial.println(F("80°C")); break;
+    case BQ25798_TREG_100C: Serial.println(F("100°C")); break;
+    case BQ25798_TREG_120C: Serial.println(F("120°C")); break;
+  }
+  
+  Serial.println();
+  
+  // Test thermal shutdown threshold functions
+  // bq.setThermShutdownThresh(BQ25798_TSHUT_130C); // Uncomment to set thermal shutdown threshold if desired
+  Serial.print(F("Current thermal shutdown threshold: "));
+  bq25798_tshut_t currentTSHUT = bq.getThermShutdownThresh();
+  switch(currentTSHUT) {
+    case BQ25798_TSHUT_150C: Serial.println(F("150°C")); break;
+    case BQ25798_TSHUT_130C: Serial.println(F("130°C")); break;
+    case BQ25798_TSHUT_120C: Serial.println(F("120°C")); break;
+    case BQ25798_TSHUT_85C: Serial.println(F("85°C")); break;
+  }
+  
+  Serial.println();
+  
+  // Test VBUS pulldown functions
+  // bq.setVBUSpulldown(true); // Uncomment to enable VBUS pulldown if desired
+  Serial.print(F("VBUS pulldown enabled: "));
+  Serial.println(bq.getVBUSpulldown() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VAC1 pulldown functions
+  // bq.setVAC1pulldown(true); // Uncomment to enable VAC1 pulldown if desired
+  Serial.print(F("VAC1 pulldown enabled: "));
+  Serial.println(bq.getVAC1pulldown() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test VAC2 pulldown functions
+  // bq.setVAC2pulldown(true); // Uncomment to enable VAC2 pulldown if desired
+  Serial.print(F("VAC2 pulldown enabled: "));
+  Serial.println(bq.getVAC2pulldown() ? F("true") : F("false"));
+  
+  Serial.println();
+  
+  // Test backup ACFET1 on functions
+  // bq.setBackupACFET1on(true); // Uncomment to turn on backup ACFET1 if desired
+  Serial.print(F("Backup ACFET1 on: "));
+  Serial.println(bq.getBackupACFET1on() ? F("true") : F("false"));
 }
 
 void loop() {
